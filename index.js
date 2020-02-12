@@ -90,7 +90,10 @@ class App extends Component {
   }
 
   getCharges(day) {
-    return 10;
+    return Object.keys(this.state.charges)
+      .filter(x => x <= day)
+      .map(x => this.state.charges[x])
+      .reduce((t, n) => t + n, 0)
   }
 
   getBalance(day) {
