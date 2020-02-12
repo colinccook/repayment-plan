@@ -27,20 +27,20 @@ class App extends Component {
       now: moment(),
       then: moment().add(2, 'M'),
       lastMonday: moment().startOf('week').isoWeekday(1),
-      rentFrequency: 'Weekly',
-      rentAmount: 123.45,
+      chargeFrequency: 'Weekly',
+      chargeAmount: 123.45,
       accountBalance: 100,
       payments: {},
       totalPayments: 0
     };
   }
 
-  handleChangeRentFrequency = (event) => {
-    this.setState({rentFrequency: event.target.value})
+  handleChangeChargeFrequency = (event) => {
+    this.setState({chargeFrequency: event.target.value})
   }
 
-  handleChangeRentAmount = (event) => {
-    this.setState({rentAmount: event.target.value})
+  handleChangeChargeAmount = (event) => {
+    this.setState({chargeAmount: event.target.value})
   }
 
   handleChangeAccountBalance = (event) => {
@@ -74,14 +74,14 @@ class App extends Component {
         <div class="inputs">
           <div>
             <label>
-              Rent Frequency:
-              <input type="text" value={this.state.rentFrequency} onChange={this.handleChangeRentFrequency}/>
+              Charge Frequency:
+              <input type="text" value={this.state.chargeFrequency} onChange={this.handleChangeChargeFrequency}/>
             </label>
           </div>
           <div>
             <label>
-              Rent Amount:
-              <input type="text" value={this.state.rentAmount} onChange={this.handleChangeRentAmount}/>
+              Charge Amount:
+              <input type="text" value={this.state.chargeAmount} onChange={this.handleChangeChargeAmount}/>
             </label>
           </div>
           <div>
@@ -96,7 +96,7 @@ class App extends Component {
           <table>
             <tr>
               <th>WC</th>
-              <th>£R</th>
+              <th>£C</th>
               <th>M</th>
               <th>T</th>
               <th>W</th>
