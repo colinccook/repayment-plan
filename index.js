@@ -96,6 +96,7 @@ class App extends Component {
           <table>
             <tr>
               <th>WC</th>
+              <th>£R</th>
               <th>M</th>
               <th>T</th>
               <th>W</th>
@@ -103,12 +104,14 @@ class App extends Component {
               <th>F</th>
               <th>S</th>
               <th>S</th>
+              <th>£B</th>
             </tr>
             {
               getDates(this.state.lastMonday.toDate(), this.state.then.toDate(), 7).map(
                 (o, i) => 
                 <tr>
                   <td>{moment(o).format('DD/MM/YYYY')}</td>
+                  <td><input type="text"/></td>
                   {this.drawCell(o, i)}
                   {this.drawCell(o.addDays(1), i + 100)}
                   {this.drawCell(o.addDays(2), i + 10000)}
@@ -116,6 +119,7 @@ class App extends Component {
                   {this.drawCell(o.addDays(4), i + 1000000)}
                   {this.drawCell(o.addDays(5), i + 10000000)}
                   {this.drawCell(o.addDays(6), i + 100000000)}
+                  <td><input type="text"/></td>
                 </tr>
               )
             }
