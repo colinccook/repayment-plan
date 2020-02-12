@@ -26,7 +26,7 @@ class App extends Component {
     this.state = {
       now: moment(),
       then: moment().add(2, 'M'),
-      lastMonday: moment().startOf('week').isoWeekday(1),
+      lastMonday: moment().startOf('isoweek'),
       chargeFrequency: 'Weekly',
       chargeAmount: 123.45,
       currentBalance: 100,
@@ -97,9 +97,15 @@ class App extends Component {
   }
 
   getBalance(day) {
-    return this.state.currentBalance
+    return +this.state.currentBalance
       +this.getCharges(day)
       -this.getPayments(day)
+  }
+
+  getLastPaymentDay() {
+    return Object.keys(this.state.payments)
+      .sort()
+      .slice(-1)[0];
   }
 
   drawBalanceCell(day, index) {
@@ -169,9 +175,9 @@ class App extends Component {
         </div>
 
         <div id="summary">
-          {this.state.currentBalance - this.state.totalPayment > 0 && <h3>You have a balance of £{this.state.currentBalance - this.state.totalPayment} remaining</h3>}
-          {this.state.currentBalance - this.state.totalPayment <= 0 && <h3>You have paid back the full £{this.state.currentBalance}!</h3>}
-          {this.state.currentBalance - this.state.totalPayment < 0 && <h3>You also have an advance of £{Math.abs(this.state.currentBalance - this.state.totalPayment)} </h3>}
+          {this.getBalance(this.getLastPaymentDay()) > 0 && <h3>You have a balance of £{this.getBalance(this.getLastPaymentDay())} remaining</h3>}
+          {this.getBalance(this.getLastPaymentDay()) <= 0 && <h3>You have paid back the full £{this.state.currentBalance}</h3>}
+          {this.getBalance(this.getLastPaymentDay()) < 0 && <h3>You also have an advance of £{Math.abs(this.getBalance(this.getLastPaymentDay()))} </h3>}
         </div>
       </div>
     );
