@@ -82,9 +82,13 @@ class App extends Component {
     </td>
   }
 
+  getBalance(day) {
+    return 10;
+  }
+
   drawBalanceCell(day, index) {
     return <td>
-      <input type="text" value="b" tabindex={index}/>
+      <input type="text" value={this.getBalance(day)} tabindex={index}/>
     </td>
   }
 
