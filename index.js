@@ -61,7 +61,7 @@ class App extends Component {
     this.setState({payments: p, totalPayments: tp});
   }
 
-  drawCell(day, index) {
+  drawPaymentCell(day, index) {
     return <td>
       <input type="text" id={day.getTime()} onChange={this.handleChangePayment} disabled={day < moment()} tabindex={index}/>
     </td>
@@ -112,13 +112,13 @@ class App extends Component {
                 <tr>
                   <td>{moment(o).format('DD/MM/YYYY')}</td>
                   <td><input type="text"/></td>
-                  {this.drawCell(o, i)}
-                  {this.drawCell(o.addDays(1), i + 100)}
-                  {this.drawCell(o.addDays(2), i + 10000)}
-                  {this.drawCell(o.addDays(3), i + 100000)}
-                  {this.drawCell(o.addDays(4), i + 1000000)}
-                  {this.drawCell(o.addDays(5), i + 10000000)}
-                  {this.drawCell(o.addDays(6), i + 100000000)}
+                  {this.drawPaymentCell(o, i)}
+                  {this.drawPaymentCell(o.addDays(1), i + 100)}
+                  {this.drawPaymentCell(o.addDays(2), i + 10000)}
+                  {this.drawPaymentCell(o.addDays(3), i + 100000)}
+                  {this.drawPaymentCell(o.addDays(4), i + 1000000)}
+                  {this.drawPaymentCell(o.addDays(5), i + 10000000)}
+                  {this.drawPaymentCell(o.addDays(6), i + 100000000)}
                   <td><input type="text"/></td>
                 </tr>
               )
