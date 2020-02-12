@@ -27,8 +27,8 @@ class App extends Component {
       now: moment(),
       then: moment().add(2, 'M'),
       lastMonday: moment().startOf('isoweek'),
-      chargeFrequency: 'Weekly',
-      chargeAmount: 123.45,
+      chargeFrequency: '',
+      chargeAmount: 0,
       currentBalance: 100,
       payments: {},
       charges: {},
@@ -72,13 +72,15 @@ class App extends Component {
 
   drawChargeCell(day, index) {
     return <td>
-      <input type="text" id={day.getTime()} onChange={this.handleChangeCharge}  tabindex={index}/>
+      <input type="text" id={day.getTime()} onChange={this.handleChangeCharge} disabled={day < moment()} 
+      tabindex={index}/>
     </td>
   }
 
   drawPaymentCell(day, index) {
     return <td>
-      <input type="text" id={day.getTime()} onChange={this.handleChangePayment} disabled={day < moment()} tabindex={index}/>
+      <input type="text" id={day.getTime()} onChange={this.handleChangePayment} disabled={day < moment()} 
+      tabindex={index}/>
     </td>
   }
 
