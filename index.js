@@ -82,6 +82,12 @@ class App extends Component {
     </td>
   }
 
+  drawBalanceCell(day, index) {
+    return <td>
+      <input type="text" value="b" tabindex={index}/>
+    </td>
+  }
+
   render() {
     return (
       <div>
@@ -134,7 +140,7 @@ class App extends Component {
                   {this.drawPaymentCell(o.addDays(4), i + 10000000)}
                   {this.drawPaymentCell(o.addDays(5), i + 100000000)}
                   {this.drawPaymentCell(o.addDays(6), i + 1000000000)}
-                  <td><input type="text"/></td>
+                  {this.drawBalanceCell(o.addDays(6))}
                 </tr>
               )
             }
