@@ -56,6 +56,9 @@ class App extends Component {
     var v = +event.target.value;
     var c = this.state.charges;
     c[event.target.id] = v;
+
+    if (!event.target.value)
+      delete c[event.target.id]
     
     this.setState({charges: c});
   }
@@ -64,8 +67,11 @@ class App extends Component {
     var v = +event.target.value;
     var p = this.state.payments;
     p[event.target.id] = v;
+
+    if (!event.target.value)
+      delete p[event.target.id]
     
-    const totalPayment = Object.values(p).reduce((t, n) => t + n)
+    const totalPayment = Object.values(p).reduce((t, n) => t + n, 0)
 
     this.setState({payments: p, totalPayment: totalPayment});
   }
@@ -179,7 +185,8 @@ class App extends Component {
         <div id="summary">
           {this.getBalance(this.getLastPaymentDay()) > 0 && <h3>You have a balance of £{this.getBalance(this.getLastPaymentDay())} remaining</h3>}
           {this.getBalance(this.getLastPaymentDay()) <= 0 && <h3>You have paid back the full £{this.state.currentBalance}</h3>}
-          {this.getBalance(this.getLastPaymentDay()) < 0 && <h3>You also have an advance of £{Math.abs(this.getBalance(this.getLastPaymentDay()))} </h3>}
+          {this.getBalance(this.getLastPaymentDay()) <= 0 && <h3>It will take {Object.keys(this.state.payments).length} payments, with the final being {moment(new Date(this.getLastPaymentDay())).format()}</h3>}
+          {this.getBalance(this.getLastPaymentDay()) < 0 && <h3>This is inclusive of an advance of £{Math.abs(this.getBalance(this.getLastPaymentDay()))} </h3>}
         </div>
       </div>
     );
