@@ -31,6 +31,7 @@ class App extends Component {
       chargeAmount: 123.45,
       accountBalance: 100,
       payments: {},
+      charges: {},
       totalPayments: 0
     };
   }
@@ -51,14 +52,28 @@ class App extends Component {
     this.setState({then: this.state.then.add(1, 'M')})
   }
 
+  handleChangeCharge = (event) => {
+    var v = +event.target.value;
+    var c = this.state.charges;
+    c[event.target.id] = v;
+    
+    this.setState({charges: c});
+  }
+
   handleChangePayment = (event) => {
     var v = +event.target.value;
     var p = this.state.payments;
     p[event.target.id] = v;
     
-    const tp = Object.values(p).reduce((t, n) => t + n)
+    const totalPayments = Object.values(p).reduce((t, n) => t + n)
 
-    this.setState({payments: p, totalPayments: tp});
+    this.setState({payments: p, totalPayments: totalPayments});
+  }
+
+  drawChargeCell(day, index) {
+    return <td>
+      <input type="text" id={day.getTime()} onChange={this.handleChangeCharge}  tabindex={index}/>
+    </td>
   }
 
   drawPaymentCell(day, index) {
@@ -111,14 +126,14 @@ class App extends Component {
                 (o, i) => 
                 <tr>
                   <td>{moment(o).format('DD/MM/YYYY')}</td>
-                  <td><input type="text"/></td>
-                  {this.drawPaymentCell(o, i)}
-                  {this.drawPaymentCell(o.addDays(1), i + 100)}
-                  {this.drawPaymentCell(o.addDays(2), i + 10000)}
-                  {this.drawPaymentCell(o.addDays(3), i + 100000)}
-                  {this.drawPaymentCell(o.addDays(4), i + 1000000)}
-                  {this.drawPaymentCell(o.addDays(5), i + 10000000)}
-                  {this.drawPaymentCell(o.addDays(6), i + 100000000)}
+                  {this.drawChargeCell(o, i)}
+                  {this.drawPaymentCell(o, i+100)}
+                  {this.drawPaymentCell(o.addDays(1), i + 1000)}
+                  {this.drawPaymentCell(o.addDays(2), i + 100000)}
+                  {this.drawPaymentCell(o.addDays(3), i + 1000000)}
+                  {this.drawPaymentCell(o.addDays(4), i + 10000000)}
+                  {this.drawPaymentCell(o.addDays(5), i + 100000000)}
+                  {this.drawPaymentCell(o.addDays(6), i + 1000000000)}
                   <td><input type="text"/></td>
                 </tr>
               )
