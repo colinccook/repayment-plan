@@ -32,7 +32,7 @@ class App extends Component {
       currentBalance: 100,
       payments: {},
       charges: {},
-      totalPayments: 0
+      totalPayment: 0
     };
   }
 
@@ -65,9 +65,9 @@ class App extends Component {
     var p = this.state.payments;
     p[event.target.id] = v;
     
-    const totalPayments = Object.values(p).reduce((t, n) => t + n)
+    const totalPayment = Object.values(p).reduce((t, n) => t + n)
 
-    this.setState({payments: p, totalPayments: totalPayments});
+    this.setState({payments: p, totalPayment: totalPayment});
   }
 
   drawChargeCell(day, index) {
@@ -82,8 +82,21 @@ class App extends Component {
     </td>
   }
 
-  getBalance(day) {
+  getPayments(day) {
+    return Object.keys(this.state.payments)
+      .filter(x => x <= day)
+      .map(x => this.state.payments[x])
+      .reduce((t, n) => t + n, 0)
+  }
+
+  getCharges(day) {
     return 10;
+  }
+
+  getBalance(day) {
+    return this.state.currentBalance
+      +this.getCharges(day)
+      -this.getPayments(day)
   }
 
   drawBalanceCell(day, index) {
@@ -153,9 +166,9 @@ class App extends Component {
         </div>
 
         <div id="summary">
-          {this.state.currentBalance - this.state.totalPayments > 0 && <h3>You have a balance of £{this.state.currentBalance - this.state.totalPayments} remaining</h3>}
-          {this.state.currentBalance - this.state.totalPayments <= 0 && <h3>You have paid back the full £{this.state.currentBalance}!</h3>}
-          {this.state.currentBalance - this.state.totalPayments < 0 && <h3>You also have an advance of £{Math.abs(this.state.currentBalance - this.state.totalPayments)} </h3>}
+          {this.state.currentBalance - this.state.totalPayment > 0 && <h3>You have a balance of £{this.state.currentBalance - this.state.totalPayment} remaining</h3>}
+          {this.state.currentBalance - this.state.totalPayment <= 0 && <h3>You have paid back the full £{this.state.currentBalance}!</h3>}
+          {this.state.currentBalance - this.state.totalPayment < 0 && <h3>You also have an advance of £{Math.abs(this.state.currentBalance - this.state.totalPayment)} </h3>}
         </div>
       </div>
     );
