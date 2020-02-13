@@ -27,8 +27,8 @@ class App extends Component {
       now: moment(),
       then: moment().add(2, 'M'),
       lastMonday: moment().startOf('isoweek'),
-      chargeFrequency: '',
-      chargeAmount: 0,
+      chargeFrequency: 'weekly',
+      chargeAmount: 100,
       currentBalance: 100,
       payments: {},
       charges: {},
@@ -37,7 +37,7 @@ class App extends Component {
   }
 
   handleChangeChargeFrequency = (event) => {
-    this.setState({chargeFrequency: event.target.value})
+    console.log(event.target.value);
   }
 
   handleChangeChargeAmount = (event) => {
@@ -125,12 +125,26 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>Repayment Plan</h1>
+        <h2>Repayment Plan</h2>
         <div class="inputs">
           <div>
             <label>
-              Charge Frequency:
-              <input type="text" value={this.state.chargeFrequency} onChange={this.handleChangeChargeFrequency}/>
+              Charge Weekly
+              <input 
+                type="radio" 
+                value="weekly" 
+                name="charge"
+                onClick={this.handleChangeChargeFrequency}
+              />
+            </label>
+            <label>
+              Charge Monthly
+              <input 
+                type="radio" 
+                value="monthly"
+                name="charge"
+                onClick={this.handleChangeChargeFrequency}
+              />
             </label>
           </div>
           <div>
