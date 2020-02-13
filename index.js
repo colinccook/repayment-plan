@@ -79,7 +79,7 @@ class App extends Component {
   drawChargeCell(day, index) {
     return <td>
       <input type="text" id={day.getTime()} onChange={this.handleChangeCharge} disabled={day < moment()} 
-      tabindex={index}/>
+      tabindex={index} />
     </td>
   }
 
