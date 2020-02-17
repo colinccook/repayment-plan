@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import Hello from "./Hello";
 import "./style.css";
-import moment from "moment";
+
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
+
+const moment = extendMoment(Moment);
 
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
