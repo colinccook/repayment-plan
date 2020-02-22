@@ -49,7 +49,6 @@ class App extends Component {
   };
 
   drawChargeCell(day, index) {
-    console.log("draw cell" + day);
     return (
       <td>
         <input
@@ -82,19 +81,19 @@ class App extends Component {
       .reduce((t, n) => t + n, 0);
   }
 
+  getCharges(from, to) {
+    console.log(Array.from(moment.range(from, to).by('day')));
+    return Array.from(moment.range(from, to).by('day'))
+      .map(x => this.getCharge(x))
+      .reduce((t, n) => t + n, 0);
+  }
+
   getCharge(day) {
     if (this.state.chargeFrequency == "weekly") {
-      console.log(day.weekday());
       return day.weekday() === 0 ? this.state.chargeAmount : 0;
     } else if (this.state.chargeFrequency == "monthly") {
       return day == day.startOf("month") ? this.state.chargeAmount : 0;
     }
-  }
-
-  getCharges(from, to) {
-    return Array.from(moment.range(from, to))
-      .map(x => this.getCharge(x))
-      .reduce((t, n) => t + n, 0);
   }
 
   getBalance(day) {
@@ -121,7 +120,7 @@ class App extends Component {
     return (
       <div>
         <h2>Repayment Plan</h2>
-        <div class="inputs">
+        <div className="inputs">
           <div>
             <label>
               Charge Weekly
@@ -165,7 +164,7 @@ class App extends Component {
           </div>
         </div>
 
-        <div class="calendar">
+        <div className="calendar">
           <table>
             <tr>
               <th>WC</th>
@@ -220,7 +219,6 @@ class App extends Component {
             <h3>
               It will take {Object.keys(this.state.payments).length} payments,
               with the final being{" "}
-              {moment(new Date(this.getLastPaymentDay())).format()}
             </h3>
           )}
           {this.getBalance(this.getLastPaymentDay()) < 0 && (
