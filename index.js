@@ -82,15 +82,15 @@ class App extends Component {
   }
 
   getCharges(from, to) {
-    var range = Array.from(
-              moment
-                .range(
-                  from,
-                  to
-                )
-                .by("week")
-            )
-    console.log(range);
+    // var range = Array.from(
+    //           moment
+    //             .range(
+    //               from,
+    //               to
+    //             )
+    //             .by("week")
+    //         )
+    // console.log(range);
     // console.log(Array.from(moment.range(from, to).by('day')));
     // return Array.from(moment.range(from, to).by('day'))
     //   .map(x => this.getCharge(x))
