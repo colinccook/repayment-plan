@@ -3,35 +3,16 @@ import { render } from "react-dom";
 import Hello from "./Hello";
 import "./style.css";
 
-import Moment from 'moment';
-import { extendMoment } from 'moment-range';
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 
 const moment = extendMoment(Moment);
-
-Date.prototype.addDays = function(days) {
-  var date = new Date(this.valueOf());
-  date.setDate(date.getDate() + days);
-  return date;
-};
-
-function getDates(startDate, stopDate, step) {
-  var dateArray = new Array();
-  var currentDate = startDate;
-  while (currentDate <= stopDate) {
-    dateArray.push(new Date(currentDate));
-    currentDate = currentDate.addDays(step);
-  }
-  return dateArray;
-}
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      now: moment(),
-      then: moment().add(2, "M"),
-      lastMonday: moment().startOf("isoweek"),
-      chargeFrequency: null,
+      chargeFrequency: "weekly",
       chargeAmount: 100,
       currentBalance: 100,
       payments: {},
@@ -40,7 +21,7 @@ class App extends Component {
   }
 
   handleChangeChargeFrequency = event => {
-    this.setState({ chargeFrequency: event.target.value});
+    this.setState({ chargeFrequency: event.target.value });
   };
 
   handleChangeChargeAmount = event => {
@@ -68,14 +49,13 @@ class App extends Component {
   };
 
   drawChargeCell(day, index) {
+    console.log("draw cell" + day);
     return (
       <td>
         <input
           type="text"
-          value={this.getCharges(day, moment(day).add('d', 7))}
-          onChange={this.handleChangeCharge}
-          disabled={day < moment()}
-          tabindex={index}
+          value={this.getCharges(day, day.add(7, "days"))}
+          tabIndex={index}
         />
       </td>
     );
@@ -86,10 +66,10 @@ class App extends Component {
       <td>
         <input
           type="text"
-          id={day.getTime()}
+          id={day}
           onChange={this.handleChangePayment}
           disabled={day < moment()}
-          tabindex={index}
+          tabIndex={index}
         />
       </td>
     );
@@ -104,16 +84,15 @@ class App extends Component {
 
   getCharge(day) {
     if (this.state.chargeFrequency == "weekly") {
-      return moment(day).weekday() === 0 ? 
-      this.state.chargeAmount : 0;
+      console.log(day.weekday());
+      return day.weekday() === 0 ? this.state.chargeAmount : 0;
     } else if (this.state.chargeFrequency == "monthly") {
-      return moment(day) == moment(day).startOf('month') ?
-        this.state.chargeAmount : 0;
+      return day == day.startOf("month") ? this.state.chargeAmount : 0;
     }
   }
 
   getCharges(from, to) {
-    return getDates(from, to, 1)
+    return Array.from(moment.range(from, to))
       .map(x => this.getCharge(x))
       .reduce((t, n) => t + n, 0);
   }
@@ -133,7 +112,7 @@ class App extends Component {
   drawBalanceCell(day, index) {
     return (
       <td>
-        <input type="text" value={this.getBalance(day)} tabindex={index} />
+        <input type="text" value={this.getBalance(day)} tabIndex={index} />
       </td>
     );
   }
@@ -151,6 +130,7 @@ class App extends Component {
                 value="weekly"
                 name="charge"
                 onClick={this.handleChangeChargeFrequency}
+                defaultChecked
               />
             </label>
             <label>
@@ -199,22 +179,27 @@ class App extends Component {
               <th>S</th>
               <th>£B</th>
             </tr>
-            {getDates(
-              this.state.lastMonday.toDate(),
-              this.state.then.toDate(),
-              7
+            {Array.from(
+              moment
+                .range(
+                  moment().startOf("isoweek"),
+                  moment()
+                    .startOf("isoweek")
+                    .add(2, "months")
+                )
+                .by("week")
             ).map((o, i) => (
               <tr>
-                <td>{moment(o).format("DD/MM/YYYY")}</td>
+                <td>{o.format("DD/MM/YYYY")}</td>
                 {this.drawChargeCell(o, i)}
                 {this.drawPaymentCell(o, i + 100)}
-                {this.drawPaymentCell(o.addDays(1), i + 1000)}
-                {this.drawPaymentCell(o.addDays(2), i + 100000)}
-                {this.drawPaymentCell(o.addDays(3), i + 1000000)}
-                {this.drawPaymentCell(o.addDays(4), i + 10000000)}
-                {this.drawPaymentCell(o.addDays(5), i + 100000000)}
-                {this.drawPaymentCell(o.addDays(6), i + 1000000000)}
-                {this.drawBalanceCell(o.addDays(6))}
+                {this.drawPaymentCell(o.add(1, "days"), i + 1000)}
+                {this.drawPaymentCell(o.add(2, "days"), i + 100000)}
+                {this.drawPaymentCell(o.add(3, "days"), i + 1000000)}
+                {this.drawPaymentCell(o.add(4, "days"), i + 10000000)}
+                {this.drawPaymentCell(o.add(5, "days"), i + 100000000)}
+                {this.drawPaymentCell(o.add(6, "days"), i + 1000000000)}
+                {this.drawBalanceCell(o.add(6, "days"))}
               </tr>
             ))}
           </table>
