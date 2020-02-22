@@ -95,6 +95,7 @@ class App extends Component {
     // return Array.from(moment.range(from, to).by('day'))
     //   .map(x => this.getCharge(x))
     //   .reduce((t, n) => t + n, 0);
+    return 1;
   }
 
   getCharge(day) {
