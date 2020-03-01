@@ -82,6 +82,10 @@ class App extends Component {
   }
 
   getCharges(from, to) {
+    console.log(from);
+    console.log(to);
+
+
     // var range = Array.from(
     //           moment
     //             .range(
@@ -200,15 +204,15 @@ class App extends Component {
             ).map((o, i) => (
               <tr>
                 <td>{o.format("DD/MM/YYYY")}</td>
-                {this.drawChargeCell(o, i)}
-                {this.drawPaymentCell(o, i + 100)}
-                {this.drawPaymentCell(o.add(1, "days"), i + 1000)}
-                {this.drawPaymentCell(o.add(2, "days"), i + 100000)}
-                {this.drawPaymentCell(o.add(3, "days"), i + 1000000)}
-                {this.drawPaymentCell(o.add(4, "days"), i + 10000000)}
-                {this.drawPaymentCell(o.add(5, "days"), i + 100000000)}
-                {this.drawPaymentCell(o.add(6, "days"), i + 1000000000)}
-                {this.drawBalanceCell(o.add(6, "days"))}
+                // {this.drawChargeCell(o, i)}
+                // {this.drawPaymentCell(o, i + 100)}
+                // {this.drawPaymentCell(o.add(1, "days"), i + 1000)}
+                // {this.drawPaymentCell(o.add(2, "days"), i + 100000)}
+                // {this.drawPaymentCell(o.add(3, "days"), i + 1000000)}
+                // {this.drawPaymentCell(o.add(4, "days"), i + 10000000)}
+                // {this.drawPaymentCell(o.add(5, "days"), i + 100000000)}
+                // {this.drawPaymentCell(o.add(6, "days"), i + 1000000000)}
+                // {this.drawBalanceCell(o.add(6, "days"))}
               </tr>
             ))}
           </table>
