@@ -53,7 +53,7 @@ class App extends Component {
       <td>
         <input
           type="text"
-          value={this.getCharges(day, day.add(7, "days"))}
+          value={this.getCharges(day, day.clone().add(6, "days"))}
           tabIndex={index}
         />
       </td>
@@ -82,37 +82,22 @@ class App extends Component {
   }
 
   getCharges(from, to) {
-    console.log(from);
-    console.log(to);
-
-
-    // var range = Array.from(
-    //           moment
-    //             .range(
-    //               from,
-    //               to
-    //             )
-    //             .by("week")
-    //         )
-    // console.log(range);
-    // console.log(Array.from(moment.range(from, to).by('day')));
-    // return Array.from(moment.range(from, to).by('day'))
-    //   .map(x => this.getCharge(x))
-    //   .reduce((t, n) => t + n, 0);
-    return 1;
+    return Array.from(moment.range(from, to).by('day'))
+      .map(x => this.getCharge(x))
+      .reduce((t, n) => t + n, 0);
   }
 
   getCharge(day) {
     if (this.state.chargeFrequency == "weekly") {
-      return day.weekday() === 0 ? this.state.chargeAmount : 0;
+      return day.weekday() === 1 ? this.state.chargeAmount : 0;
     } else if (this.state.chargeFrequency == "monthly") {
-      return day == day.startOf("month") ? this.state.chargeAmount : 0;
+      return day.date() == 1 ? this.state.chargeAmount : 0;
     }
   }
 
   getBalance(day) {
-    return (
-      +this.state.currentBalance + this.getCharges(day) - this.getPayments(day)
+    return 2; (
+      +this.state.currentBalance + this.getCharges(new moment(), day) - this.getPayments(day)
     );
   }
 
@@ -204,15 +189,15 @@ class App extends Component {
             ).map((o, i) => (
               <tr>
                 <td>{o.format("DD/MM/YYYY")}</td>
-                // {this.drawChargeCell(o, i)}
-                // {this.drawPaymentCell(o, i + 100)}
-                // {this.drawPaymentCell(o.add(1, "days"), i + 1000)}
-                // {this.drawPaymentCell(o.add(2, "days"), i + 100000)}
-                // {this.drawPaymentCell(o.add(3, "days"), i + 1000000)}
-                // {this.drawPaymentCell(o.add(4, "days"), i + 10000000)}
-                // {this.drawPaymentCell(o.add(5, "days"), i + 100000000)}
-                // {this.drawPaymentCell(o.add(6, "days"), i + 1000000000)}
-                // {this.drawBalanceCell(o.add(6, "days"))}
+                {this.drawChargeCell(o, i)}
+                {this.drawPaymentCell(o, i + 100)}
+                {this.drawPaymentCell(o.add(1, "days"), i + 1000)}
+                {this.drawPaymentCell(o.add(2, "days"), i + 100000)}
+                {this.drawPaymentCell(o.add(3, "days"), i + 1000000)}
+                {this.drawPaymentCell(o.add(4, "days"), i + 10000000)}
+                {this.drawPaymentCell(o.add(5, "days"), i + 100000000)}
+                {this.drawPaymentCell(o.add(6, "days"), i + 1000000000)}
+                {this.drawBalanceCell(o.add(6, "days"))}
               </tr>
             ))}
           </table>
